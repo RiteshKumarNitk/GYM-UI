@@ -18,20 +18,30 @@ import Blank from "./pages/Blank";
 import AppLayout from "./layout/AppLayout";
 import { ScrollToTop } from "./component/common/ScrollToTop";
 import Home from "./pages/Dashboard/Home";
+import { AuthProvider } from "./context/AuthContext";
+import ProtectedRoute from "./components/ProtectedRoute";
+import Unauthorized from "./pages/OtherPage/Unauthorized";
+import Members from "./pages/Dashboard/Members";
+import Register from "./pages/AuthPages/Register";
+import Users from "./pages/Dashboard/Users";
 
 export default function App() {
   return (
-    <>
+    <AuthProvider>
       <Router>
         <ScrollToTop />
         <Routes>
-          {/* Dashboard Layout */}
-            <Route index path="/" element={<SignIn/>} />
-          
-            <Route element={<AppLayout />}>
-            {/* Others Page */}
-            
+          {/* Auth Routes */}
+          <Route path="/" element={<SignIn />} />
+          <Route path="/signin" element={<SignIn />} />
+          <Route path="/signup" element={<SignUp />} />
+          <Route path="/register" element={<Register />} />
+
+          {/* Protected Dashboard Routes */}
+          <Route element={<ProtectedRoute><AppLayout /></ProtectedRoute>}>
             <Route path="/Home" element={<Home />} />
+            <Route path="/members" element={<Members />} />
+            <Route path="/users" element={<Users />} />
             <Route path="/profile" element={<UserProfiles />} />
             <Route path="/calendar" element={<Calendar />} />
             <Route path="/blank" element={<Blank />} />
@@ -55,14 +65,13 @@ export default function App() {
             <Route path="/bar-chart" element={<BarChart />} />
           </Route>
 
-          {/* Auth Layout */}
-          <Route path="/signin" element={<SignIn />} />
-          <Route path="/signup" element={<SignUp />} />
-
+          {/* Error Routes */}
+          <Route path="/unauthorized" element={<Unauthorized />} />
+          
           {/* Fallback Route */}
           <Route path="*" element={<NotFound />} />
         </Routes>
       </Router>
-    </>
+    </AuthProvider>
   );
 }
