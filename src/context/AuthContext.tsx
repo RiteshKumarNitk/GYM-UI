@@ -23,7 +23,7 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const useAuth = () => {
   const context = useContext(AuthContext);
-  if (context === undefined) {
+  if (!context) {
     throw new Error('useAuth must be used within an AuthProvider');
   }
   return context;
@@ -34,41 +34,49 @@ interface AuthProviderProps {
 }
 
 export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
-  const [user, setUser] = useState<User | null>(null);
-  const [token, setToken] = useState<string | null>(localStorage.getItem('token'));
+  const [user, setUser] = useState<User | null>(() => {
+    const storedUser = localStorage.getItem('user');
+    return storedUser ? JSON.parse(storedUser) : null;
+  });
+
+  const [token, setToken] = useState<string | null>(() => localStorage.getItem('token'));
   const [isLoading, setIsLoading] = useState(true);
 
   const isAuthenticated = !!token && !!user;
 
-  // Check if user is authenticated on app load
+  // Verify token by calling getMe if user is missing
   useEffect(() => {
-    const checkAuth = async () => {
-      if (token) {
+    const verifyUser = async () => {
+      if (token && !user) {
         try {
           const response = await apiService.getMe();
-          setUser(response.user);
-        } catch (error) {
-          console.error('Auth check failed:', error);
+          if (response.user) {
+            setUser(response.user);
+            localStorage.setItem('user', JSON.stringify(response.user));
+          } else {
+            logout();
+          }
+        } catch (error: any) {
+          console.error('Auth verification failed:', error.message);
           logout();
         }
       }
       setIsLoading(false);
     };
-
-    checkAuth();
-  }, [token]);
+    verifyUser();
+  }, [token, user]);
 
   const login = async (email: string, password: string) => {
     try {
       setIsLoading(true);
       const response = await apiService.login(email, password);
-      
       if (response.token && response.user) {
         localStorage.setItem('token', response.token);
+        localStorage.setItem('user', JSON.stringify(response.user));
         setToken(response.token);
         setUser(response.user);
       } else {
-        throw new Error('Invalid response from server');
+        throw new Error('Invalid login response');
       }
     } catch (error) {
       console.error('Login failed:', error);
@@ -80,12 +88,14 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
   const logout = () => {
     localStorage.removeItem('token');
+    localStorage.removeItem('user');
     setToken(null);
     setUser(null);
   };
 
   const updateUser = (userData: User) => {
     setUser(userData);
+    localStorage.setItem('user', JSON.stringify(userData));
   };
 
   const value: AuthContextType = {
@@ -98,9 +108,5 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     updateUser,
   };
 
-  return (
-    <AuthContext.Provider value={value}>
-      {children}
-    </AuthContext.Provider>
-  );
-}; 
+  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
+};
