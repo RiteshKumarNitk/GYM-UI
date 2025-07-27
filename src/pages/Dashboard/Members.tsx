@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useAuth } from "../../context/AuthContext";
+// import { useAuth } from "../../context/AuthContext";
 import apiService from "../../services/api";
 import PageMeta from "../../component/common/PageMeta";
 
@@ -17,7 +17,7 @@ interface Member {
 }
 
 export default function Members() {
-  const { user } = useAuth();
+  // const { user } = useAuth();
   const [members, setMembers] = useState<Member[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
