@@ -24,6 +24,8 @@ import Unauthorized from "./pages/OtherPage/Unauthorized";
 import Members from "./pages/Dashboard/Members";
 import Register from "./pages/AuthPages/Register";
 import Users from "./pages/Dashboard/Users";
+import AdminDashboard from "./pages/Dashboard/AdminDashboard";
+import CreateTrainerMember from "./pages/Dashboard/adminFeature/CreateTrainerMember";
 
 export default function App() {
   return (
@@ -42,9 +44,12 @@ export default function App() {
             <Route path="/Home" element={<Home />} />
             <Route path="/members" element={<Members />} />
             <Route path="/users" element={<Users />} />
+            <Route path="/adminDashboard" element={<AdminDashboard />} />
             <Route path="/profile" element={<UserProfiles />} />
             <Route path="/calendar" element={<Calendar />} />
             <Route path="/blank" element={<Blank />} />
+            <Route path="/admin/createMember" element={<CreateTrainerMember />} />
+            
 
             {/* Forms */}
             <Route path="/form-elements" element={<FormElements />} />
