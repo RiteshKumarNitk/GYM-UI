@@ -1,16 +1,13 @@
-// src/App.tsx
-import { BrowserRouter as Router } from 'react-router-dom';
+import { RouterProvider, createBrowserRouter } from 'react-router-dom';
+import { routes } from './routes';
 import { AuthProvider } from './context/AuthContext';
-import AppRoutes from './routes/AppRoutes';
-import { ScrollToTop } from './component/common/ScrollToTop';
+
+const router = createBrowserRouter(routes);
 
 export default function App() {
   return (
     <AuthProvider>
-      <Router>
-        <ScrollToTop />
-        <AppRoutes />
-      </Router>
+      <RouterProvider router={router} />
     </AuthProvider>
   );
 }
