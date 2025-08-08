@@ -15,7 +15,7 @@ export default function TrainerDashboard() {
   const navigate = useNavigate();
 
   const features = [
-    { title: "Assigned Members", icon: Users, path: "/trainer/assigned-members" },
+    { title: "Create Frontdesk", icon: Users, path: "/trainer/assigned-members" },
     { title: "Mark Attendance", icon: ClipboardCheck, path: "/trainer/attendance" },
     { title: "Workout Plans", icon: Dumbbell, path: "/trainer/workout-plans" },
     { title: "Progress Reports", icon: BarChart2, path: "/trainer/progress-reports" },

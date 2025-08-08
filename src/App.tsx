@@ -25,6 +25,7 @@ import Members from "./pages/Dashboard/Members";
 import Register from "./pages/AuthPages/Register";
 import Users from "./pages/Dashboard/Users";
 import TrainerDashboard from "./pages/Dashboard/TrainerDashboard";
+import AssignedMember from "./pages/Dashboard/trainerFeature/AssignedMember";
 
 export default function App() {
   return (
@@ -44,6 +45,7 @@ export default function App() {
             <Route path="/members" element={<Members />} />
             <Route path="/users" element={<Users />} />
             <Route path="/trainerdashboard" element={<TrainerDashboard />} />
+            <Route path="/trainer/assigned-members" element={<AssignedMember />} />
             <Route path="/profile" element={<UserProfiles />} />
             <Route path="/calendar" element={<Calendar />} />
             <Route path="/blank" element={<Blank />} />
