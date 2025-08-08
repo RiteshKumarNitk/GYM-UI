@@ -1,24 +1,20 @@
 
 import {
-  FaUserPlus, FaUsers, FaIdBadge, FaMoneyBill, FaCalendarAlt,
-  FaBell, FaChartLine, FaDumbbell, FaBuilding, FaComments,
+  FaUserPlus, FaUsers, FaIdBadge, FaMoneyBill,
+ FaBuilding, 
   FaBan, FaChartPie, FaFileUpload
 } from "react-icons/fa";
 import { useNavigate } from "react-router-dom"; 
 
 const adminFeatures = [
-  { title: "Create Trainers & Members", icon: <FaUserPlus />, key: "createMember" },
-  { title: "Assign Members to Trainers", icon: <FaUsers />, key: "assignMembers" },
+  { title: "Create Gym", icon: <FaUserPlus />, key: "CreateGymForm" },
+  { title: "show owners", icon: <FaUsers />, key: "ShowOwnerList" },
   { title: "Manage Membership Plans", icon: <FaIdBadge />, key: "membershipPlans" },
   { title: "Handle Payments & Billing", icon: <FaMoneyBill />, key: "payments" },
-  { title: "Manage Attendance", icon: <FaCalendarAlt />, key: "attendance" },
-  { title: "Manage Workout Plans", icon: <FaDumbbell />, key: "workoutPlans" },
-  { title: "Create Gym Schedule", icon: <FaCalendarAlt />, key: "gymSchedule" },
-  { title: "Send Notifications", icon: <FaBell />, key: "notifications" },
-  { title: "Track Member Progress", icon: <FaChartLine />, key: "progress" },
+ 
   { title: "Manage Gym Profile", icon: <FaBuilding />, key: "gymProfile" },
-  { title: "View Member Feedback", icon: <FaComments />, key: "feedback" },
-  { title: "Activate/Deactivate Users", icon: <FaBan />, key: "userStatus" },
+ 
+  { title: "Activate/Deactivate Users", icon: <FaBan />, key: "activeDeactive" },
   { title: "Dashboard Analytics", icon: <FaChartPie />, key: "analytics" },
   { title: "Upload Gym Resources", icon: <FaFileUpload />, key: "resources" },
 ];
@@ -29,7 +25,7 @@ const AdminDashboard = () => {
   const navigate = useNavigate();
   return (
     <div className="flex">
-      {/* Sidebar */}
+      
       
 
       {/* Main Dashboard */}

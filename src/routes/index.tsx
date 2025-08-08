@@ -7,9 +7,13 @@ import Members from '../pages/Dashboard/Members';
 import Users from '../pages/Dashboard/Users';
 import NotFound from '../pages/OtherPage/NotFound';
 import Unauthorized from '../pages/OtherPage/Unauthorized';
-
 import ProtectedRoute from '../components/ProtectedRoute';
 import AppLayout from '../layout/AppLayout';
+import AdminDashboard from '../pages/Dashboard/AdminDashboard';
+import CreateGymForm from '../pages/Dashboard/CreateGymForm';
+import ShowOwnerList from '../pages/Dashboard/ShowOwnerList';
+import ActiveDeactive from '../pages/Dashboard/superadminFeature/ActiveDeactive'
+
 
 export const routes = [
   { path: '/', element: <SignIn /> },
@@ -48,6 +52,40 @@ export const routes = [
           </ProtectedRoute>
         ),
       },
+      {
+        path: '/AdminDashboard',
+        element: (
+          <ProtectedRoute allowedRoles={['superadmin']}>
+            <AdminDashboard />
+          </ProtectedRoute>
+        ),
+      },
+      {
+  path: '/admin/CreateGymForm',
+  element: (
+    <ProtectedRoute allowedRoles={['superadmin']}>
+      <CreateGymForm />
+    </ProtectedRoute>
+  ),
+},
+
+{
+  path: '/admin/ShowOwnerList',
+  element: (
+    <ProtectedRoute allowedRoles={['superadmin']}>
+      <ShowOwnerList />
+    </ProtectedRoute>
+  ),
+},
+
+{
+  path: '/admin/activeDeactive',
+  element: (
+    <ProtectedRoute allowedRoles={['superadmin']}>
+      <ActiveDeactive />
+    </ProtectedRoute>
+  ),
+}
       // Add more role-protected routes here...
     ],
   },
