@@ -1,4 +1,10 @@
-import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
+import React, {
+  createContext,
+  useContext,
+  useState,
+  useEffect,
+  ReactNode,
+} from 'react';
 import apiService from '../services/api';
 
 interface User {
@@ -21,7 +27,7 @@ interface AuthContextType {
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
-export const useAuth = () => {
+export const useAuth = (): AuthContextType => {
   const context = useContext(AuthContext);
   if (!context) {
     throw new Error('useAuth must be used within an AuthProvider');
@@ -39,17 +45,19 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     return storedUser ? JSON.parse(storedUser) : null;
   });
 
-  const [token, setToken] = useState<string | null>(() => localStorage.getItem('token'));
-  const [isLoading, setIsLoading] = useState(true);
+  const [token, setToken] = useState<string | null>(() =>
+    localStorage.getItem('token')
+  );
+  const [isLoading, setIsLoading] = useState<boolean>(true);
 
   const isAuthenticated = !!token && !!user;
 
-  // Verify token by calling getMe if user is missing
+  // Auto-verify user from token
   useEffect(() => {
     const verifyUser = async () => {
       if (token && !user) {
         try {
-          const response = await apiService.getMe();
+          const response = await apiService.getMe(); // Replace with your actual getMe logic
           if (response.user) {
             setUser(response.user);
             localStorage.setItem('user', JSON.stringify(response.user));
@@ -69,7 +77,8 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const login = async (email: string, password: string) => {
     try {
       setIsLoading(true);
-      const response = await apiService.login(email, password);
+      const response = await apiService.login(email, password); // Replace with your real login call
+
       if (response.token && response.user) {
         localStorage.setItem('token', response.token);
         localStorage.setItem('user', JSON.stringify(response.user));
@@ -108,5 +117,9 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     updateUser,
   };
 
-  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
+  return (
+    <AuthContext.Provider value={value}>
+      {!isLoading && children}
+    </AuthContext.Provider>
+  );
 };
