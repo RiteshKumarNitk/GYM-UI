@@ -12,7 +12,8 @@ import AppLayout from '../layout/AppLayout';
 import AdminDashboard from '../pages/Dashboard/AdminDashboard';
 import CreateGymForm from '../pages/Dashboard/CreateGymForm';
 import ShowOwnerList from '../pages/Dashboard/ShowOwnerList';
-import ActiveDeactive from '../pages/Dashboard/superadminFeature/ActiveDeactive'
+import ActiveDeactive from '../pages/Dashboard/superadminFeature/ActiveDeactive';
+import StaffPage from '../pages/Dashboard/superadminFeature/staffPage';
 
 
 export const routes = [
@@ -83,6 +84,15 @@ export const routes = [
   element: (
     <ProtectedRoute allowedRoles={['superadmin']}>
       <ActiveDeactive />
+    </ProtectedRoute>
+  ),
+},
+
+{
+  path: '/staff',
+  element: (
+    <ProtectedRoute allowedRoles={['superadmin']}>
+      <StaffPage />
     </ProtectedRoute>
   ),
 }
