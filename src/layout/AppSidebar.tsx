@@ -82,6 +82,11 @@ const roleBasedNavItems: Record<string, NavItem[]> = {
     },
     { icon: <UserCircleIcon />, name: "Users", path: "/users" },
     { icon: <UserCircleIcon />, name: "Members", path: "/members" },
+  {
+    icon: <GridIcon />,
+    name: "TrainerDashboard",
+    path: "/trainerdashboard",
+  },
     { icon: <UserCircleIcon />, name: "Feature", path: "/AdminDashboard" },
   ],
   owner: [
