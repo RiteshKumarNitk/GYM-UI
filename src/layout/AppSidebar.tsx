@@ -82,6 +82,12 @@ const roleBasedNavItems: Record<string, NavItem[]> = {
     },
     { icon: <UserCircleIcon />, name: "Users", path: "/users" },
     { icon: <UserCircleIcon />, name: "Members", path: "/members" },
+  {
+    icon: <GridIcon />,
+    name: "TrainerDashboard",
+    path: "/trainerdashboard",
+  },
+    { icon: <UserCircleIcon />, name: "Feature", path: "/AdminDashboard" },
   ],
   owner: [
     {
@@ -90,13 +96,16 @@ const roleBasedNavItems: Record<string, NavItem[]> = {
       subItems: [{ name: "Home", path: "/home" }],
     },
     { icon: <UserCircleIcon />, name: "Members", path: "/members" },
+     {icon: <UserCircleIcon />, name: "Feature", path: "/trainerdashboard" },
   ],
   frontdesk: [
     {
       icon: <GridIcon />,
       name: "Dashboard",
       subItems: [{ name: "Home", path: "/home" }],
+      
     },
+    { icon: <UserCircleIcon />, name: "feature", path: "/frontdeskFeature" },
   ],
 };
 

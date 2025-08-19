@@ -79,6 +79,11 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       setIsLoading(true);
       const response = await apiService.login(email, password); // Replace with your real login call
 
+       if (response.success === false) {
+   
+    alert(response.message || 'Login failed');
+    return;
+  }
       if (response.token && response.user) {
         localStorage.setItem('token', response.token);
         localStorage.setItem('user', JSON.stringify(response.user));
@@ -89,6 +94,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       }
     } catch (error) {
       console.error('Login failed:', error);
+      
       throw error;
     } finally {
       setIsLoading(false);
