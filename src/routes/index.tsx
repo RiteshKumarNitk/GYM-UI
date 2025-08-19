@@ -113,7 +113,7 @@ export const routes = [
         ),
       },
       {
-        path: '/trainer/assignedmembers',
+        path: '/AssignedMember',
         element: (
           <ProtectedRoute allowedRoles={['owner']}>
             <AssignedMember />
@@ -145,7 +145,7 @@ export const routes = [
         ),
       },
       {
-        path: '/trainer/profile',
+        path: '/profile',
         element: (
           <ProtectedRoute allowedRoles={['owner','frontdesk']}>
             <UserProfiles />
