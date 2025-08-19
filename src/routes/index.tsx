@@ -102,7 +102,7 @@ export const routes = [
       <StaffPage />
     </ProtectedRoute>
   ),
-}
+},
       // Add more role-protected routes here...
       {
         path: '/trainerdashboard',
