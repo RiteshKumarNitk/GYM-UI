@@ -13,7 +13,7 @@ import AdminDashboard from '../pages/Dashboard/AdminDashboard';
 import CreateGymForm from '../pages/Dashboard/CreateGymForm';
 import ShowOwnerList from '../pages/Dashboard/ShowOwnerList';
 import ActiveDeactive from '../pages/Dashboard/superadminFeature/ActiveDeactive';
-import StaffPage from '../pages/Dashboard/superadminFeature/staffPage';
+import StaffPage from '../pages/Dashboard/superadminFeature/StaffPage';
 
 
 export const routes = [
@@ -40,7 +40,7 @@ export const routes = [
       {
         path: '/members',
         element: (
-          <ProtectedRoute allowedRoles={['owner', 'frontdesk']}>
+          <ProtectedRoute allowedRoles={['superadmin','owner', 'frontdesk']}>
             <Members />
           </ProtectedRoute>
         ),

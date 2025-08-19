@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import { useAuth } from "../../context/AuthContext";
-import apiService from "../../services/api";
 import PageMeta from "../../component/common/PageMeta";
 import Label from "../../component/form/Label";
 import Input from "../../component/form/input/InputField";
@@ -29,7 +28,7 @@ const ROLES = {
 };
 
 export default function Users() {
-  const { user: currentUser } = useAuth();
+  const { user: currentUser, token } = useAuth(); // token from context
   const [users, setUsers] = useState<User[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
@@ -46,12 +45,21 @@ export default function Users() {
     fetchUsers();
   }, []);
 
+  // 🔹 Direct GET call instead of apiService.getUsers()
   const fetchUsers = async () => {
     try {
       setLoading(true);
-      const response = await apiService.getUsers();
-      if (response.success && response.data) {
-        setUsers(response.data);
+      const res = await fetch("http://localhost:5000/api/users", {
+        headers: {
+          "Authorization": `Bearer ${token}`,
+          "Content-Type": "application/json"
+        }
+      });
+      const data = await res.json();
+      if (data.success && data.data) {
+        setUsers(data.data);
+      } else {
+        setError(data.error || "Failed to fetch users");
       }
     } catch (err: any) {
       setError(err.message || "Failed to fetch users");
@@ -60,6 +68,7 @@ export default function Users() {
     }
   };
 
+  // 🔹 Direct POST call instead of apiService.createUser()
   const handleCreateUser = async () => {
     if (!createUserData.name || !createUserData.email || !createUserData.password) {
       setError("All fields are required");
@@ -69,9 +78,21 @@ export default function Users() {
     try {
       setIsCreating(true);
       setError("");
-      
-      await apiService.createUser(createUserData);
-      
+
+      const res = await fetch("http://localhost:5000/api/users", {
+        method: "POST",
+        headers: {
+          "Authorization": `Bearer ${token}`,
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(createUserData)
+      });
+
+      const data = await res.json();
+      if (!res.ok) {
+        throw new Error(data.msg || "Failed to create user");
+      }
+
       // Reset form and refresh users
       setCreateUserData({
         name: '',
@@ -81,7 +102,6 @@ export default function Users() {
       });
       setShowCreateForm(false);
       fetchUsers();
-      
     } catch (err: any) {
       setError(err.message || "Failed to create user");
     } finally {
@@ -100,7 +120,6 @@ export default function Users() {
       case 'frontdesk':
         return 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900/20 dark:text-yellow-400';
       case 'member':
-        return 'bg-gray-100 text-gray-800 dark:bg-gray-900/20 dark:text-gray-400';
       default:
         return 'bg-gray-100 text-gray-800 dark:bg-gray-900/20 dark:text-gray-400';
     }
@@ -116,10 +135,7 @@ export default function Users() {
 
   return (
     <>
-      <PageMeta
-        title="Users"
-        description="User management"
-      />
+      <PageMeta title="Users" description="User management" />
       
       <div className="space-y-6">
         <div className="flex justify-between items-center">
@@ -130,10 +146,7 @@ export default function Users() {
             <div className="text-sm text-gray-500 dark:text-gray-400">
               Total: {users.length} users
             </div>
-            <Button
-              size="sm"
-              onClick={() => setShowCreateForm(!showCreateForm)}
-            >
+            <Button size="sm" onClick={() => setShowCreateForm(!showCreateForm)}>
               {showCreateForm ? "Cancel" : "Add User"}
             </Button>
           </div>
@@ -203,11 +216,7 @@ export default function Users() {
               </div>
             </div>
             <div className="mt-4 flex justify-end">
-              <Button
-                size="sm"
-                disabled={isCreating}
-                onClick={handleCreateUser}
-              >
+              <Button size="sm" disabled={isCreating} onClick={handleCreateUser}>
                 {isCreating ? "Creating..." : "Create User"}
               </Button>
             </div>
@@ -225,29 +234,17 @@ export default function Users() {
               <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
                 <thead className="bg-gray-50 dark:bg-gray-700">
                   <tr>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
-                      Name
-                    </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
-                      Email
-                    </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
-                      Role
-                    </th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
-                      Created
-                    </th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Name</th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Email</th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Role</th>
+                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Created</th>
                   </tr>
                 </thead>
                 <tbody className="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
                   {users.map((user) => (
                     <tr key={user._id} className="hover:bg-gray-50 dark:hover:bg-gray-700">
-                      <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-white">
-                        {user.name}
-                      </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">
-                        {user.email}
-                      </td>
+                      <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-white">{user.name}</td>
+                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">{user.email}</td>
                       <td className="px-6 py-4 whitespace-nowrap">
                         <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${getRoleBadgeColor(user.role)}`}>
                           {user.role}
@@ -266,4 +263,4 @@ export default function Users() {
       </div>
     </>
   );
-} 
+}
