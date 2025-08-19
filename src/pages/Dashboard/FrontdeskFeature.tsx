@@ -11,11 +11,11 @@ import {
   UserCog,
 } from "lucide-react";
 
-export default function TrainerDashboard() {
+export default function FrontdeskFeature() {
   const navigate = useNavigate();
 
   const features = [
-    { title: "Create Frontdesk", icon: Users, path: "/trainer/assignedmembers" },
+    { title: "Create Trainer", icon: Users, path: "/createtrainer" },
     { title: "Create Members", icon: ClipboardCheck, path: "/createmember" },
     { title: "Workout Plans", icon: Dumbbell, path: "/trainer/workout-plans" },
     { title: "Progress Reports", icon: BarChart2, path: "/trainer/progress-reports" },
@@ -26,12 +26,10 @@ export default function TrainerDashboard() {
   ];
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
+    <div className="min-h-screen bg-gray-50">
       {/* Top Navbar */}
-      <div className="bg-white dark:bg-gray-800 shadow-md py-4 px-6 sticky top-0 z-30 flex items-center justify-between">
-        <h1 className="text-2xl font-bold text-gray-800 dark:text-white">
-          Owner Dashboard
-        </h1>
+      <div className="bg-white shadow-md py-4 px-6 sticky top-0 z-30 flex items-center justify-between">
+        <h1 className="text-2xl font-bold text-gray-800">Owner Dashboard</h1>
       </div>
 
       {/* Feature Cards */}
@@ -40,12 +38,10 @@ export default function TrainerDashboard() {
           <div
             key={idx}
             onClick={() => navigate(feat.path)}
-            className="bg-white dark:bg-gray-800 rounded-2xl p-6 h-40 shadow hover:shadow-lg hover:scale-[1.02] transition-all cursor-pointer flex flex-col justify-between"
+            className="bg-white rounded-2xl p-6 h-40 shadow hover:shadow-lg hover:scale-[1.02] transition-all cursor-pointer flex flex-col justify-between"
           >
             <feat.icon size={36} className="text-blue-500 self-end" />
-            <h2 className="text-lg font-semibold text-gray-700 dark:text-gray-300">
-              {feat.title}
-            </h2>
+            <h2 className="text-lg font-semibold text-gray-700">{feat.title}</h2>
           </div>
         ))}
       </div>

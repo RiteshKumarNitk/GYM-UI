@@ -96,13 +96,16 @@ const roleBasedNavItems: Record<string, NavItem[]> = {
       subItems: [{ name: "Home", path: "/home" }],
     },
     { icon: <UserCircleIcon />, name: "Members", path: "/members" },
+     {icon: <UserCircleIcon />, name: "Feature", path: "/trainerdashboard" },
   ],
   frontdesk: [
     {
       icon: <GridIcon />,
       name: "Dashboard",
       subItems: [{ name: "Home", path: "/home" }],
+      
     },
+    { icon: <UserCircleIcon />, name: "feature", path: "/frontdeskFeature" },
   ],
 };
 

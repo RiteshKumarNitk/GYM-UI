@@ -15,6 +15,13 @@ import ShowOwnerList from '../pages/Dashboard/ShowOwnerList';
 import ActiveDeactive from '../pages/Dashboard/superadminFeature/ActiveDeactive';
 import StaffPage from '../pages/Dashboard/superadminFeature/StaffPage';
 
+import TrainerDashboard from '../pages/Dashboard/TrainerDashboard';
+import AssignedMember from '../pages/Dashboard/trainerFeature/AssignedMember';
+import FrontdeskFeature from '../pages/Dashboard/FrontdeskFeature';
+import CreateTrainer from '../pages/Dashboard/Frontdesk/CreateTrainer';
+import CreateMember from '../pages/Dashboard/Frontdesk/CreateMember';
+import UserProfiles from '../pages/UserProfiles';
+
 
 export const routes = [
   { path: '/', element: <SignIn /> },
@@ -32,7 +39,7 @@ export const routes = [
       {
         path: '/home',
         element: (
-          <ProtectedRoute allowedRoles={['superadmin', 'owner', 'frontdesk']}>
+          <ProtectedRoute allowedRoles={['superadmin', 'owner', 'frontdesk','trainer','member']}>
             <Home />
           </ProtectedRoute>
         ),
@@ -48,7 +55,7 @@ export const routes = [
       {
         path: '/users',
         element: (
-          <ProtectedRoute allowedRoles={['superadmin']}>
+          <ProtectedRoute allowedRoles={['superadmin','owner']}>
             <Users />
           </ProtectedRoute>
         ),
@@ -97,6 +104,54 @@ export const routes = [
   ),
 }
       // Add more role-protected routes here...
+      {
+        path: '/trainerdashboard',
+        element: (
+          <ProtectedRoute allowedRoles={['owner']}>
+            <TrainerDashboard />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: '/trainer/assignedmembers',
+        element: (
+          <ProtectedRoute allowedRoles={['owner']}>
+            <AssignedMember />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: '/frontdeskFeature',
+        element: (
+          <ProtectedRoute allowedRoles={['owner','frontdesk']}>
+            <FrontdeskFeature />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: '/createtrainer',
+        element: (
+          <ProtectedRoute allowedRoles={['owner','frontdesk']}>
+            <CreateTrainer />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: '/createmember',
+        element: (
+          <ProtectedRoute allowedRoles={['owner','frontdesk']}>
+            <CreateMember />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: '/trainer/profile',
+        element: (
+          <ProtectedRoute allowedRoles={['owner','frontdesk']}>
+            <UserProfiles />
+          </ProtectedRoute>
+        ),
+      },
     ],
   },
 
