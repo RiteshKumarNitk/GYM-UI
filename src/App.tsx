@@ -37,7 +37,7 @@ export default function App() {
       <Router>
         <ScrollToTop />
         <Routes>
-          {/* Auth Routes */}
+          {/* Auth Routes   */}
           <Route path="/" element={<SignIn />} />
           <Route path="/signin" element={<SignIn />} />
           <Route path="/signup" element={<SignUp />} />
