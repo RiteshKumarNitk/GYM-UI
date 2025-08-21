@@ -9,12 +9,12 @@ const AssignedMember = () => {
     email: "",
     password: "",
     role: "frontdesk",
-    branch: "", // You can add a dropdown if multiple branches
+    branch: "",
   });
 
   const [message, setMessage] = useState("");
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
@@ -22,15 +22,13 @@ const AssignedMember = () => {
     e.preventDefault();
 
     try {
-      const token = localStorage.getItem("token"); // assume you're storing JWT
+      const token = localStorage.getItem("token");
 
       const response = await axios.post(
         "http://localhost:5000/api/users",
         form,
         {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
+          headers: { Authorization: `Bearer ${token}` },
         }
       );
 
@@ -38,14 +36,22 @@ const AssignedMember = () => {
       console.log(response.data);
     } catch (err: any) {
       console.error(err.response?.data || err.message);
-      setMessage(err.response?.data?.msg || "Failed to create frontdesk");
+      setMessage(
+        err.response?.data?.msg ||
+        err.response?.data?.error ||
+        "Failed to create frontdesk"
+      );
     }
   };
 
   return (
     <div className="max-w-md mx-auto p-6 bg-white shadow-md rounded">
       <h2 className="text-2xl font-semibold mb-4">Create Frontdesk</h2>
-      {message && <p className="mb-4 text-red-600">{message}</p>}
+      {message && (
+        <p className={`mb-4 ${message.includes("success") ? "text-green-600" : "text-red-600"}`}>
+          {message}
+        </p>
+      )}
       <form onSubmit={handleSubmit} className="space-y-4">
         <input
           type="text"
