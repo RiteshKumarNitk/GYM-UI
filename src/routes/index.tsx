@@ -5,8 +5,8 @@ import Register from '../pages/AuthPages/Register';
 import Home from '../pages/Dashboard/Home';
 import Members from '../pages/Dashboard/Members';
 import Users from '../pages/Dashboard/Users';
-import NotFound from '../pages/OtherPage/NotFound';
-import Unauthorized from '../pages/OtherPage/Unauthorized';
+// import NotFound from '../pages/OtherPage/NotFound';
+// import Unauthorized from '../pages/OtherPage/Unauthorized';
 import ProtectedRoute from '../components/ProtectedRoute';
 import AppLayout from '../layout/AppLayout';
 import AdminDashboard from '../pages/Dashboard/AdminDashboard';
@@ -21,6 +21,7 @@ import FrontdeskFeature from '../pages/Dashboard/FrontdeskFeature';
 import CreateTrainer from '../pages/Dashboard/Frontdesk/CreateTrainer';
 import CreateMember from '../pages/Dashboard/Frontdesk/CreateMember';
 import UserProfiles from '../pages/UserProfiles';
+import ShowList from '../pages/Dashboard/Frontdesk/ShowList';
 
 
 export const routes = [
@@ -147,14 +148,23 @@ export const routes = [
       {
         path: '/trainer/profile',
         element: (
-          <ProtectedRoute allowedRoles={['owner','frontdesk']}>
+          <ProtectedRoute allowedRoles={['superadmin', 'owner', 'frontdesk','trainer','member']}>
             <UserProfiles />
+          </ProtectedRoute>
+        ),
+      },
+
+      {
+        path: '/trainer/showlist',
+        element: (
+          <ProtectedRoute allowedRoles={['superadmin', 'owner', 'frontdesk','trainer','member']}>
+            <ShowList />
           </ProtectedRoute>
         ),
       },
     ],
   },
 
-  { path: '/unauthorized', element: <Unauthorized /> },
-  { path: '*', element: <NotFound /> },
+  // { path: '/unauthorized', element: <Unauthorized /> },
+  // { path: '*', element: <NotFound /> },
 ];
