@@ -17,11 +17,11 @@ export default function TrainerDashboard() {
   const features = [
     { title: "Create Frontdesk", icon: Users, path: "/trainer/assignedmembers" },
     { title: "Create Members", icon: ClipboardCheck, path: "/createmember" },
-    { title: "Workout Plans", icon: Dumbbell, path: "/trainer/workout-plans" },
-    { title: "Progress Reports", icon: BarChart2, path: "/trainer/progress-reports" },
-    { title: "Upload Material", icon: Upload, path: "/trainer/upload-material" },
-    { title: "Availability", icon: Calendar, path: "/trainer/availability" },
-    { title: "Send Notifications", icon: Send, path: "/trainer/notifications" },
+    { title: "Workout Plans", icon: Dumbbell, path: "/trainer/manageworkoutplans" },
+    { title: "Progress Reports", icon: BarChart2, path: "/trainer/ViewMemberProgress" },
+    { title: "Upload Material", icon: Upload, path: "/trainer/InstructionalMaterialUpload" },
+    { title: "Availability", icon: Calendar, path: "/trainer/AvailabilityPage" },
+    { title: "Members", icon: Send, path: "/trainer/memberlist" },
     { title: "Profile", icon: UserCog, path: "/trainer/profile" },
   ];
 

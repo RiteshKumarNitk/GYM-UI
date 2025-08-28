@@ -1,5 +1,6 @@
 import { useState } from "react";
 import axios from "axios";
+import { Eye, EyeOff } from "lucide-react"; // 👁 icon package (install lucide-react)
 
 interface MemberData {
   name: string;
@@ -9,6 +10,7 @@ interface MemberData {
   address: string;
   dob: string;
   gender: string;
+  password: string; // ✅ added password
 }
 
 const CreateMember = () => {
@@ -20,11 +22,13 @@ const CreateMember = () => {
     address: "",
     dob: "",
     gender: "male",
+    password: "", // ✅ init
   });
 
   const [image, setImage] = useState<File | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
+  const [showPassword, setShowPassword] = useState(false); // 👁 toggle state
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
@@ -74,6 +78,7 @@ const CreateMember = () => {
         address: "",
         dob: "",
         gender: "male",
+        password: "", // reset
       });
       setImage(null);
     } catch (err: any) {
@@ -120,7 +125,9 @@ const CreateMember = () => {
 
           {/* Gender */}
           <div>
-            <label className="block mb-1 text-gray-700 dark:text-gray-300 font-medium">Gender</label>
+            <label className="block mb-1 text-gray-700 dark:text-gray-300 font-medium">
+              Gender
+            </label>
             <select
               name="gender"
               value={member.gender}
@@ -129,13 +136,15 @@ const CreateMember = () => {
             >
               <option value="male">Male</option>
               <option value="female">Female</option>
-              <option value="other">Other</option>
+              <option value="others">Others</option>
             </select>
           </div>
 
           {/* Plan */}
           <div>
-            <label className="block mb-1 text-gray-700 dark:text-gray-300 font-medium">Plan</label>
+            <label className="block mb-1 text-gray-700 dark:text-gray-300 font-medium">
+              Plan
+            </label>
             <select
               name="planType"
               value={member.planType}
@@ -148,6 +157,28 @@ const CreateMember = () => {
               <option value="premium">3 Months (Premium)</option>
               <option value="elite">6 Months (Elite)</option>
             </select>
+          </div>
+
+          {/* Password */}
+          <div className="relative">
+            <label className="block mb-1 text-gray-700 dark:text-gray-300 font-medium">
+              Password
+            </label>
+            <input
+              type={showPassword ? "text" : "password"}
+              name="password"
+              value={member.password}
+              onChange={handleChange}
+              required
+              className="w-full border border-gray-300 dark:border-gray-600 rounded-lg px-4 py-2 pr-10 bg-white dark:bg-gray-700 text-gray-800 dark:text-gray-200 focus:ring-2 focus:ring-blue-400 focus:outline-none"
+            />
+            <button
+              type="button"
+              onClick={() => setShowPassword(!showPassword)}
+              className="absolute right-3 top-9 text-gray-500 dark:text-gray-300"
+            >
+              {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+            </button>
           </div>
         </div>
 

@@ -21,7 +21,7 @@ export default function FrontdeskFeature() {
     { title: "Progress Reports", icon: BarChart2, path: "/trainer/progress-reports" },
     { title: "Upload Material", icon: Upload, path: "/trainer/upload-material" },
     { title: "Availability", icon: Calendar, path: "/trainer/availability" },
-    { title: "Send Notifications", icon: Send, path: "/trainer/notifications" },
+    { title: "Member", icon: Send, path: "/trainer/MemberList" },
     { title: "Profile", icon: UserCog, path: "/trainer/profile" },
   ];
 

@@ -21,6 +21,11 @@ import FrontdeskFeature from '../pages/Dashboard/FrontdeskFeature';
 import CreateTrainer from '../pages/Dashboard/Frontdesk/CreateTrainer';
 import CreateMember from '../pages/Dashboard/Frontdesk/CreateMember';
 import UserProfiles from '../pages/UserProfiles';
+import MemberList from '../pages/Dashboard/Frontdesk/memberList';
+import ManageWorkoutPlans from '../pages/Dashboard/Frontdesk/ManageWorkoutPlans';
+import InstructionalMaterialUpload from '../pages/Dashboard/Frontdesk/InstructionalMaterialUpload';
+import AvailabilityPage from '../pages/Dashboard/Frontdesk/AvailabilityPage';
+import ViewMemberProgress from '../pages/Dashboard/Frontdesk/ViewMemberProgress';
 
 
 export const routes = [
@@ -147,8 +152,48 @@ export const routes = [
       {
         path: '/trainer/profile',
         element: (
-          <ProtectedRoute allowedRoles={['owner','frontdesk']}>
+          <ProtectedRoute allowedRoles={['owner','frontdesk','superadmin']}>
             <UserProfiles />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: '/trainer/memberlist',
+        element: (
+          <ProtectedRoute allowedRoles={['owner','frontdesk']}>
+            <MemberList />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: '/trainer/manageworkoutplans',
+        element: (
+          <ProtectedRoute allowedRoles={['owner','frontdesk']}>
+            <ManageWorkoutPlans />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: '/trainer/InstructionalmaterialUpload',
+        element: (
+          <ProtectedRoute allowedRoles={['owner','frontdesk']}>
+            <InstructionalMaterialUpload />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: '/trainer/AvailabilityPage',
+        element: (
+          <ProtectedRoute allowedRoles={['owner','frontdesk']}>
+            <AvailabilityPage />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: '/trainer/ViewMemberProgress',
+        element: (
+          <ProtectedRoute allowedRoles={['owner','frontdesk']}>
+            <ViewMemberProgress />
           </ProtectedRoute>
         ),
       },
