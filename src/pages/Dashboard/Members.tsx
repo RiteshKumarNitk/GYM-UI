@@ -26,7 +26,8 @@ const Member = () => {
             Authorization: `Bearer ${token}`,
           },
         });
-        setMembers(response.data);
+        setMembers(response.data.data);
+        console.log("API response:", response.data);
       } catch (error) {
         console.error("Error fetching members:", error);
       }
