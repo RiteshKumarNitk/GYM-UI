@@ -17,7 +17,7 @@ export default function FrontdeskFeature() {
   const features = [
     { title: "Create Trainer", icon: Users, path: "/createtrainer" },
     { title: "Create Members", icon: ClipboardCheck, path: "/createmember" },
-    { title: "Workout Plans", icon: Dumbbell, path: "/trainer/workout-plans" },
+    { title: "Show List", icon: Dumbbell, path: "/trainer/showlist" },
     { title: "Progress Reports", icon: BarChart2, path: "/trainer/progress-reports" },
     { title: "Upload Material", icon: Upload, path: "/trainer/upload-material" },
     { title: "Availability", icon: Calendar, path: "/trainer/availability" },
