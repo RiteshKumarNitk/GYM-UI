@@ -39,6 +39,7 @@
     "react-router": "^7.1.5",
     "react-router-dom": "^7.7.0",
     "recharts": "^3.1.2",
+    "react-toastify": "^11.0.5",
     "remixicon": "^4.6.0",
     "simplebar-react": "^3.3.0",
     "swiper": "^11.2.3",

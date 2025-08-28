@@ -7,12 +7,12 @@ With TailAdmin, you get access to all the necessary dashboard UI components, ele
 
 ![TailAdmin React.js Dashboard Preview](./banner.png)
 
-## Overview
+## Overvieww
 
 TailAdmin provides essential UI components and layouts for building feature-rich, data-driven admin dashboards and control panels. It's built on:
 
 - React 18 (create-react-app)
-- TypeScript
+- TypeScripts
 - Tailwind CSS
 
 ### Quick Links
