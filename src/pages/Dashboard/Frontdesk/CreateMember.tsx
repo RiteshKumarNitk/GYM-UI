@@ -9,7 +9,8 @@ interface MemberData {
   address: string;
   dob: string;
   gender: string;
-  trainerId?: string; // 🔹 naya field
+  trainerId?: string;
+  password: string; 
 }
 
 interface Trainer {
@@ -28,6 +29,7 @@ const CreateMember = () => {
     dob: "",
     gender: "male",
     trainerId: "",
+    password: "", // 🔹 init
   });
 
   const [image, setImage] = useState<File | null>(null);
@@ -101,6 +103,7 @@ const CreateMember = () => {
         dob: "",
         gender: "male",
         trainerId: "",
+        password: "", // reset
       });
       setImage(null);
     } catch (err: any) {
@@ -129,6 +132,7 @@ const CreateMember = () => {
             { label: "Phone", name: "phone", type: "text", required: true },
             { label: "Address", name: "address", type: "text" },
             { label: "Date of Birth", name: "dob", type: "date" },
+            { label: "Password", name: "password", type: "password", required: true }, // 🔹 added here
           ].map((field) => (
             <div key={field.name}>
               <label className="block mb-2 text-gray-700 dark:text-gray-300 font-medium">
