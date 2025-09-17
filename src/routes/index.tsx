@@ -24,6 +24,9 @@ import UserProfiles from '../pages/UserProfiles';
 import ShowList from '../pages/Dashboard/Frontdesk/ShowList';
 import Checkfood from '../pages/Dashboard/Member/Checkfood';
 import Memberfeature from '../pages/Dashboard/Member/Memberfeature';
+import Exersizeplan from '../pages/Dashboard/Member/Exersizeplan';
+import Attendance from '../pages/Dashboard/Member/Attendance';
+import BMIcal from '../pages/Dashboard/Member/BMIcal';
 
 
 export const routes = [
@@ -179,6 +182,31 @@ export const routes = [
         element: (
           <ProtectedRoute allowedRoles={['member']}>
             <Checkfood />
+          </ProtectedRoute>
+        ),
+      },
+
+      {
+        path: '/planday',
+        element: (
+          <ProtectedRoute allowedRoles={['member']}>
+            <Exersizeplan />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: '/attendance',
+        element: (
+          <ProtectedRoute allowedRoles={['member']}>
+            <Attendance />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: '/bmiCalculator',
+        element: (
+          <ProtectedRoute allowedRoles={['member']}>
+            <BMIcal />
           </ProtectedRoute>
         ),
       },

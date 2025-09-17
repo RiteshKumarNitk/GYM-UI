@@ -16,10 +16,10 @@ export default function Memberfeature() {
 
   const features = [
     { title: "check food with AI", icon: Users, path: "/checkfood" },
-    { title: "Create Members", icon: ClipboardCheck, path: "/createmember" },
-    { title: "Show List", icon: Dumbbell, path: "/trainer/showlist" },
+    { title: "Exersize plan", icon: ClipboardCheck, path: "/planday" },
+    { title: "Attendance", icon: Dumbbell, path: "/attendance" },
     { title: "Progress Reports", icon: BarChart2, path: "/trainer/progress-reports" },
-    { title: "Upload Material", icon: Upload, path: "/trainer/upload-material" },
+    { title: "BMI Calculator", icon: Upload, path: "/bmiCalculator" },
     { title: "Availability", icon: Calendar, path: "/trainer/availability" },
     { title: "Send Notifications", icon: Send, path: "/trainer/notifications" },
     { title: "Profile", icon: UserCog, path: "/trainer/profile" },
