@@ -44,7 +44,7 @@ export const routes = [
       {
         path: '/home',
         element: (
-          <ProtectedRoute allowedRoles={['superadmin', 'owner', 'frontdesk','trainer','member']}>
+          <ProtectedRoute allowedRoles={['superadmin', 'owner', 'frontdesk','trainer','MEMBER']}>
             <Home />
           </ProtectedRoute>
         ),
