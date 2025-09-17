@@ -21,39 +21,40 @@ interface CreateUserData {
 }
 
 const ROLES = {
-  MANAGER: 'manager',
-  TRAINER: 'trainer',
-  FRONTDESK: 'frontdesk',
-  MEMBER: 'member'
+  OWNER: "owner",
+  MANAGER: "manager",
+  TRAINER: "trainer",
+  FRONTDESK: "frontdesk",
+  MEMBER: "member",
 };
 
 export default function Users() {
-  const { user: currentUser, token } = useAuth(); // token from context
+  const { user: currentUser, token } = useAuth();
   const [users, setUsers] = useState<User[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [showCreateForm, setShowCreateForm] = useState(false);
   const [createUserData, setCreateUserData] = useState<CreateUserData>({
-    name: '',
-    email: '',
-    password: '',
-    role: ROLES.MEMBER
+    name: "",
+    email: "",
+    password: "",
+    role: ROLES.MEMBER,
   });
   const [isCreating, setIsCreating] = useState(false);
+  const [roleFilter, setRoleFilter] = useState<string>("all");
 
   useEffect(() => {
     fetchUsers();
   }, []);
 
-  // 🔹 Direct GET call instead of apiService.getUsers()
   const fetchUsers = async () => {
     try {
       setLoading(true);
       const res = await fetch("http://localhost:5000/api/users", {
         headers: {
-          "Authorization": `Bearer ${token}`,
-          "Content-Type": "application/json"
-        }
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
       });
       const data = await res.json();
       if (data.success && data.data) {
@@ -68,38 +69,27 @@ export default function Users() {
     }
   };
 
-  // 🔹 Direct POST call instead of apiService.createUser()
   const handleCreateUser = async () => {
     if (!createUserData.name || !createUserData.email || !createUserData.password) {
       setError("All fields are required");
       return;
     }
-
     try {
       setIsCreating(true);
       setError("");
-
       const res = await fetch("http://localhost:5000/api/users", {
         method: "POST",
         headers: {
-          "Authorization": `Bearer ${token}`,
-          "Content-Type": "application/json"
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
         },
-        body: JSON.stringify(createUserData)
+        body: JSON.stringify(createUserData),
       });
-
       const data = await res.json();
       if (!res.ok) {
         throw new Error(data.msg || "Failed to create user");
       }
-
-      // Reset form and refresh users
-      setCreateUserData({
-        name: '',
-        email: '',
-        password: '',
-        role: ROLES.MEMBER
-      });
+      setCreateUserData({ name: "", email: "", password: "", role: ROLES.MEMBER });
       setShowCreateForm(false);
       fetchUsers();
     } catch (err: any) {
@@ -111,19 +101,20 @@ export default function Users() {
 
   const getRoleBadgeColor = (role: string) => {
     switch (role) {
-      case 'owner':
-        return 'bg-purple-100 text-purple-800 dark:bg-purple-900/20 dark:text-purple-400';
-      case 'manager':
-        return 'bg-blue-100 text-blue-800 dark:bg-blue-900/20 dark:text-blue-400';
-      case 'trainer':
-        return 'bg-green-100 text-green-800 dark:bg-green-900/20 dark:text-green-400';
-      case 'frontdesk':
-        return 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900/20 dark:text-yellow-400';
-      case 'member':
+      case "owner":
+        return "bg-purple-100 text-purple-800";
+      case "manager":
+        return "bg-blue-100 text-blue-800";
+      case "trainer":
+        return "bg-green-100 text-green-800";
+      case "frontdesk":
+        return "bg-yellow-100 text-yellow-800";
       default:
-        return 'bg-gray-100 text-gray-800 dark:bg-gray-900/20 dark:text-gray-400';
+        return "bg-gray-100 text-gray-800";
     }
   };
+
+  const filteredUsers = roleFilter === "all" ? users : users.filter((u) => u.role === roleFilter);
 
   if (loading) {
     return (
@@ -133,133 +124,133 @@ export default function Users() {
     );
   }
 
+
+  // Add these derived counts before the return
+const totalAdmins = users.filter(
+  (u) =>
+    u.role === ROLES.OWNER
+).length;
+
+const totalMembers = users.filter((u) => u.role === ROLES.MEMBER).length;
+
+// All users count
+const totalUsers = users.length;
+
   return (
     <>
-      <PageMeta title="Users" description="User management" />
-      
-      <div className="space-y-6">
-        <div className="flex justify-between items-center">
-          <h1 className="text-2xl font-bold text-gray-800 dark:text-white">
-            Users
-          </h1>
-          <div className="flex items-center gap-4">
-            <div className="text-sm text-gray-500 dark:text-gray-400">
-              Total: {users.length} users
-            </div>
-            <Button size="sm" onClick={() => setShowCreateForm(!showCreateForm)}>
-              {showCreateForm ? "Cancel" : "Add User"}
-            </Button>
-          </div>
-        </div>
+     <PageMeta title="Dashboard" description="Overview" />
+<div className="space-y-6">
+<div className="bg-white p-6 rounded-xl shadow">
+<h1 className="text-2xl font-bold">Welcome back, Super Admin 2!</h1>
+<p className="text-gray-500">You are logged in as: <span className="text-blue-600">superadmin</span></p>
+<p className="text-gray-400">Tenant ID: root</p>
+</div>
 
-        {error && (
-          <div className="p-4 text-red-600 bg-red-100 border border-red-300 rounded-lg dark:bg-red-900/20 dark:border-red-800 dark:text-red-400">
-            {error}
-          </div>
-        )}
 
-        {/* Create User Form */}
-        {showCreateForm && (
-          <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-6">
-            <h3 className="text-lg font-semibold text-gray-800 dark:text-white mb-4">
-              Create New User
-            </h3>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div>
-                <Label>
-                  Full Name <span className="text-error-500">*</span>
-                </Label>
-                <Input
-                  value={createUserData.name}
-                  onChange={(e) => setCreateUserData(prev => ({ ...prev, name: e.target.value }))}
-                  placeholder="Enter full name"
-                />
-              </div>
-              <div>
-                <Label>
-                  Email <span className="text-error-500">*</span>
-                </Label>
-                <Input
-                  type="email"
-                  value={createUserData.email}
-                  onChange={(e) => setCreateUserData(prev => ({ ...prev, email: e.target.value }))}
-                  placeholder="Enter email"
-                />
-              </div>
-              <div>
-                <Label>
-                  Password <span className="text-error-500">*</span>
-                </Label>
-                <Input
-                  type="password"
-                  value={createUserData.password}
-                  onChange={(e) => setCreateUserData(prev => ({ ...prev, password: e.target.value }))}
-                  placeholder="Enter password"
-                />
-              </div>
-              <div>
-                <Label>
-                  Role <span className="text-error-500">*</span>
-                </Label>
-                <select
-                  value={createUserData.role}
-                  onChange={(e) => setCreateUserData(prev => ({ ...prev, role: e.target.value }))}
-                  className="h-11 w-full rounded-lg border border-gray-300 px-4 py-2.5 text-sm shadow-theme-xs focus:outline-none focus:ring-2 focus:ring-brand-500/20 focus:border-brand-300 dark:bg-gray-900 dark:border-gray-700 dark:text-white/90"
-                >
-                  <option value={ROLES.MEMBER}>Member</option>
-                  <option value={ROLES.FRONTDESK}>Front Desk</option>
-                  <option value={ROLES.TRAINER}>Trainer</option>
-                  {currentUser?.role === 'owner' && (
-                    <option value={ROLES.MANAGER}>Manager</option>
-                  )}
-                </select>
-              </div>
-            </div>
-            <div className="mt-4 flex justify-end">
-              <Button size="sm" disabled={isCreating} onClick={handleCreateUser}>
-                {isCreating ? "Creating..." : "Create User"}
+{/* Summary Cards showing gym users */}
+<div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+<div className="bg-white p-6 rounded-xl shadow">
+<p className="text-gray-500">Total Admins (Owner, Manager, Trainer, Front Desk)</p>
+<h2 className="text-3xl font-bold">{totalAdmins}</h2>
+</div>
+<div className="bg-white p-6 rounded-xl shadow">
+<p className="text-gray-500">Total Members</p>
+<h2 className="text-3xl font-bold">{totalMembers}</h2>
+</div>
+<div className="bg-white p-6 rounded-xl shadow">
+<p className="text-gray-500">Total Users</p>
+<h2 className="text-3xl font-bold">{totalUsers}</h2>
+</div>
+</div>
+
+        {/* User Management Section */}
+        <div className="bg-white p-6 rounded-xl shadow">
+          <div className="flex justify-between items-center mb-4">
+            <h2 className="text-xl font-semibold">Users</h2>
+            <div className="flex items-center gap-4">
+              <select
+                value={roleFilter}
+                onChange={(e) => setRoleFilter(e.target.value)}
+                className="border rounded px-2 py-1 text-sm"
+              >
+                <option value="all">All</option>
+                <option value={ROLES.OWNER}>Owner</option>
+                <option value={ROLES.MANAGER}>Manager</option>
+                <option value={ROLES.TRAINER}>Trainer</option>
+                <option value={ROLES.FRONTDESK}>Front Desk</option>
+                <option value={ROLES.MEMBER}>Member</option>
+              </select>
+              <Button size="sm" onClick={() => setShowCreateForm(!showCreateForm)}>
+                {showCreateForm ? "Cancel" : "Add User"}
               </Button>
             </div>
           </div>
-        )}
 
-        {/* Users List */}
-        {users.length === 0 ? (
-          <div className="text-center py-12">
-            <p className="text-gray-500 dark:text-gray-400">No users found.</p>
-          </div>
-        ) : (
-          <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm overflow-hidden">
-            <div className="overflow-x-auto">
-              <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
-                <thead className="bg-gray-50 dark:bg-gray-700">
-                  <tr>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Name</th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Email</th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Role</th>
-                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Created</th>
-                  </tr>
-                </thead>
-                <tbody className="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
-                  {users.map((user) => (
-                    <tr key={user._id} className="hover:bg-gray-50 dark:hover:bg-gray-700">
-                      <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-white">{user.name}</td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">{user.email}</td>
-                      <td className="px-6 py-4 whitespace-nowrap">
-                        <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${getRoleBadgeColor(user.role)}`}>
-                          {user.role}
-                        </span>
-                      </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-300">
-                        {new Date(user.createdAt).toLocaleDateString()}
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
+          {error && <div className="text-red-500 mb-4">{error}</div>}
+
+          {showCreateForm && (
+            <div className="p-4 mb-6 bg-gray-50 rounded-lg">
+              <h3 className="font-semibold mb-2">Create New User</h3>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <Label>Name</Label>
+                  <Input value={createUserData.name} onChange={(e) => setCreateUserData({ ...createUserData, name: e.target.value })} />
+                </div>
+                <div>
+                  <Label>Email</Label>
+                  <Input type="email" value={createUserData.email} onChange={(e) => setCreateUserData({ ...createUserData, email: e.target.value })} />
+                </div>
+                <div>
+                  <Label>Password</Label>
+                  <Input type="password" value={createUserData.password} onChange={(e) => setCreateUserData({ ...createUserData, password: e.target.value })} />
+                </div>
+                <div>
+                  <Label>Role</Label>
+                  <select value={createUserData.role} onChange={(e) => setCreateUserData({ ...createUserData, role: e.target.value })} className="border rounded px-2 py-2 text-sm">
+                    <option value={ROLES.MEMBER}>Member</option>
+                    <option value={ROLES.FRONTDESK}>Front Desk</option>
+                    <option value={ROLES.TRAINER}>Trainer</option>
+                    {currentUser?.role === "owner" && <option value={ROLES.MANAGER}>Manager</option>}
+                  </select>
+                </div>
+              </div>
+              <div className="mt-4 text-right">
+                <Button size="sm" onClick={handleCreateUser} disabled={isCreating}>
+                  {isCreating ? "Creating..." : "Create User"}
+                </Button>
+              </div>
             </div>
-          </div>
-        )}
+          )}
+
+          {filteredUsers.length === 0 ? (
+            <p className="text-center text-gray-500 py-4">No users found.</p>
+          ) : (
+            <table className="w-full text-left border-t">
+              <thead>
+                <tr>
+                  <th className="py-2">Name</th>
+                  <th className="py-2">Email</th>
+                  <th className="py-2">Role</th>
+                  <th className="py-2">Created</th>
+                </tr>
+              </thead>
+              <tbody>
+                {filteredUsers.map((user) => (
+                  <tr key={user._id} className="border-t">
+                    <td className="py-2">{user.name}</td>
+                    <td className="py-2">{user.email}</td>
+                    <td className="py-2">
+                      <span className={`px-2 py-1 rounded-full text-xs font-medium ${getRoleBadgeColor(user.role)}`}>
+                        {user.role}
+                      </span>
+                    </td>
+                    <td className="py-2">{new Date(user.createdAt).toLocaleDateString()}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          )}
+        </div>
       </div>
     </>
   );
