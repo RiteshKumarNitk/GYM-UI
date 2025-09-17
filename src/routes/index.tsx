@@ -9,19 +9,24 @@ import Users from '../pages/Dashboard/Users';
 // import Unauthorized from '../pages/OtherPage/Unauthorized';
 import ProtectedRoute from '../components/ProtectedRoute';
 import AppLayout from '../layout/AppLayout';
-import AdminDashboard from '../pages/Dashboard/AdminDashboard';
-import CreateGymForm from '../pages/Dashboard/CreateGymForm';
-import ShowOwnerList from '../pages/Dashboard/ShowOwnerList';
+import AdminDashboard from '../pages/Dashboard/superadminFeature/AdminDashboard';
+import CreateGymForm from '../pages/Dashboard/superadminFeature/CreateGymForm';
+import ShowOwnerList from '../pages/Dashboard/superadminFeature/ShowOwnerList';
 import ActiveDeactive from '../pages/Dashboard/superadminFeature/ActiveDeactive';
 import StaffPage from '../pages/Dashboard/superadminFeature/StaffPage';
 
 import TrainerDashboard from '../pages/Dashboard/TrainerDashboard';
 import AssignedMember from '../pages/Dashboard/trainerFeature/AssignedMember';
-import FrontdeskFeature from '../pages/Dashboard/FrontdeskFeature';
+import FrontdeskFeature from '../pages/Dashboard/Frontdesk/FrontdeskFeature';
 import CreateTrainer from '../pages/Dashboard/Frontdesk/CreateTrainer';
 import CreateMember from '../pages/Dashboard/Frontdesk/CreateMember';
 import UserProfiles from '../pages/UserProfiles';
 import ShowList from '../pages/Dashboard/Frontdesk/ShowList';
+import Checkfood from '../pages/Dashboard/Member/Checkfood';
+import Memberfeature from '../pages/Dashboard/Member/Memberfeature';
+import Exersizeplan from '../pages/Dashboard/Member/Exersizeplan';
+import Attendance from '../pages/Dashboard/Member/Attendance';
+import BMIcal from '../pages/Dashboard/Member/BMIcal';
 
 
 export const routes = [
@@ -129,6 +134,16 @@ export const routes = [
           </ProtectedRoute>
         ),
       },
+       
+      {
+        path: '/memberFeature',
+        element: (
+          <ProtectedRoute allowedRoles={['member']}>
+            <Memberfeature />
+          </ProtectedRoute>
+        ),
+      },
+
       {
         path: '/createtrainer',
         element: (
@@ -159,6 +174,39 @@ export const routes = [
         element: (
           <ProtectedRoute allowedRoles={['superadmin', 'owner', 'frontdesk','trainer','member']}>
             <ShowList />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: '/checkfood',
+        element: (
+          <ProtectedRoute allowedRoles={['member']}>
+            <Checkfood />
+          </ProtectedRoute>
+        ),
+      },
+
+      {
+        path: '/planday',
+        element: (
+          <ProtectedRoute allowedRoles={['member']}>
+            <Exersizeplan />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: '/attendance',
+        element: (
+          <ProtectedRoute allowedRoles={['member']}>
+            <Attendance />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: '/bmiCalculator',
+        element: (
+          <ProtectedRoute allowedRoles={['member']}>
+            <BMIcal />
           </ProtectedRoute>
         ),
       },

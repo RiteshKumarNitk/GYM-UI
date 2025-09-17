@@ -5,15 +5,11 @@ import { useAuth } from '../context/AuthContext';
 // Assume these icons are imported from an icon library
 import {
   BoxCubeIcon,
-  CalenderIcon,
   ChevronDownIcon,
   GridIcon,
   HorizontaLDots,
-  ListIcon,
-  PageIcon,
   PieChartIcon,
   PlugInIcon,
-  TableIcon,
   UserCircleIcon,
 } from "../icons";
 import { useSidebar } from "../context/SidebarContext";
@@ -106,6 +102,17 @@ const roleBasedNavItems: Record<string, NavItem[]> = {
       
     },
     { icon: <UserCircleIcon />, name: "feature", path: "/frontdeskFeature" },
+    
+  ],
+  member: [
+    {
+      icon: <GridIcon />,
+      name: "Dashboard",
+      subItems: [{ name: "Home", path: "/home" }],
+      
+    },
+    { icon: <UserCircleIcon />, name: "feature", path: "/memberFeature" },
+    
   ],
 };
 
